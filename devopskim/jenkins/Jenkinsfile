@@ -21,6 +21,9 @@ pipeline {
                     # Test NGINX configuration locally
                     docker run -i -d -p 80:80 --name=test-nginx nginx
                     docker cp default.conf test-nginx:/etc/nginx/conf.d/default.conf
+                    docker exec test-nginx cat /etc/nginx/conf.d/default.conf
+                    docker exec test-nginx mkdir /var/log/nginx/access
+                    docker exec test-nginx mkdir /var/log/nginx/error
 
                     # Validate configuration
                     docker exec test-nginx nginx -t || (docker rm -f test-nginx && exit 1)
